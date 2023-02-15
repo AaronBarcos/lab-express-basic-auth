@@ -2,8 +2,14 @@
     <form action="/auth/signup" method="post">
         <label for="username">Nombre de usuario:</label>
         <input type="text" name="username">
+        <br>
         <label for="password">Contraseña:</label>
         <input type="password" name="password">
+        <br>
+        {{#if this.errorMessage}}
+        <p>{{this.errorMessage}}</p>
+        {{/if}}
+
         <button>Crear usuario</button>
     </form>
 </div>

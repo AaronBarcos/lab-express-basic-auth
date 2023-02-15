@@ -8,7 +8,24 @@ router.get("/signup", (req, res, next) => {
 });
 
 router.post("/signup", async (req, res, next) => {
+  if (req.body.username === "" || req.body.password === "") {
+    res.status(401).render("auth/signup-form.hbs", {
+      errorMessage: "Todos los campos deben ser rellenados",
+    });
+    return;
+  }
+
   try {
+    //Validación solo un user
+
+    const foundUser = await User.findOne({ username: req.body.username });
+
+    if(foundUser !== null){
+      res.render("auth/signup-form.hbs",{
+        errorMessage: "Ya existe un usuario con ese nombre."
+      })
+    }
+
     // Encriptar la contraseña
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
