@@ -52,7 +52,7 @@ router.post("/login", async (req, res, next) => {
     //Activar sesión
     req.session.activeUser = foundUser;
     req.session.save(() => {
-      res.redirect("/");
+      res.redirect("/logged/main");
     });
   } catch (error) {
     next(error);
