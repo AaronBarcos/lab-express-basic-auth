@@ -43,11 +43,17 @@ router.post("/login", async (req, res, next) => {
     );
 
     if (correctPassword === false) {
-        res.render ("auth/login-form.hbs",{
-            errorMessage: "Contraseña incorrecta"
-        })
-        return
+      res.render("auth/login-form.hbs", {
+        errorMessage: "Contraseña incorrecta",
+      });
+      return;
     }
+
+    //Activar sesión
+    req.session.activeUser = foundUser;
+    req.session.save(() => {
+      res.redirect("/");
+    });
   } catch (error) {
     next(error);
   }
